@@ -62,7 +62,7 @@ class Coins
          coin = available_coins[index]
       end
       coins << coin
-      remaining_amount = remaining_amount - coin
+      remaining_amount -= coin
     end
     coins
   end

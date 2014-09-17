@@ -1,5 +1,6 @@
 require 'machine'
 require 'product'
+require 'coins'
 
 describe Machine do
 	let(:machine) { Machine.new }
@@ -14,6 +15,10 @@ describe Machine do
 
 		it 'products have a price' do
 			expect(machine.price("Coke")).to eq 150
+		end
+
+		it 'contains coins when created' do
+			expect(machine.coins).to eq [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 5, 5, 5, 5, 5, 10, 10, 10, 10, 10, 20, 20, 20, 20, 20, 50, 50, 50, 50, 50, 100, 100, 200, 200]
 		end
 
 	# 	it 'contains change when created' do
