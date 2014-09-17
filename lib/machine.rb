@@ -44,6 +44,10 @@ class Machine
 		p = select(product)
 		p[0].price
 	end
+	
+	def remaining(product)
+		selected(product).quantity
+	end
 
 	def convert(price)
 		if price.class == Fixnum || price.class == Float
@@ -56,28 +60,6 @@ class Machine
 			return (price.delete("£").to_f)*100 if price.include? "£"
 		end
 	end
-
-	# def buy(product, price)
-	# 	new_price = convert(price)
-	# 	@new_quantity = quantity(product)
-
-	# 	if new_price == price(product)
-	# 		@new_quantity -= 1
-	# 		return "Your product: " + product
-	# 	end
-
-	# 	if new_price > price(product)
-	# 		@new_quantity -= 1
-	# 		change = convert(new_price - price(product))
-	# 		return "Your product: #{product} - Change: #{change}"
-	# 	end
-
-	# 	if new_price < price(product)
-	# 		@new_quantity = quantity(product)
-	# 		amount = convert(price(product) - new_price)
-	# 		return "Please insert another #{amount}"
-	# 	end
-	# end
 
 	def buy(product, amount)
 		new_price = convert(amount)
@@ -93,10 +75,6 @@ class Machine
 			change = convert(new_price - price(product))
 			return "Your product:\n #{selected(product).name}\nChange: #{change}"
 		end
-	end
-
-	def remaining(product)
-		selected(product).quantity
 	end
 
 end
