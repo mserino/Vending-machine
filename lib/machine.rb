@@ -1,15 +1,17 @@
 class Machine
 
+	def initialize
+		@coke = Product.new "Coke", 150.0, 10
+		@pringles = Product.new "Pringles", 50.0, 5
+		@mars = Product.new "Mars", 175.0, 5
+	end
+
 	def products
-		[
-			{product: {"Coke" => 150.0}, quantity: 10},
-			{product: {"Mars" => 50.0}, quantity: 5},
-			{product: {"Pringles" => 175.0}, quantity: 5}
-		]
+		[@coke, @pringles, @mars]
 	end
 
 	def products_names
-		products.map{|p| p[:product].keys}.flatten
+		products.map{|p| p.name}
 	end
 
 	def change
@@ -25,14 +27,22 @@ class Machine
 		}
 	end
 
+	def select(product)
+		products.select{|p| p.name == product}
+	end
+
+	def selected(product)
+		@selected = select(product)[0]
+	end
+
 	def quantity(product)
-		q = products.select{|p| p[:product][product]}
-		q[0][:quantity]
+		q = select(product)
+		q[0].quantity
 	end
 
 	def price(product)
-		p = products.select{|p| p[:product][product]}
-		p[0][:product][product]
+		p = select(product)
+		p[0].price
 	end
 
 	def convert(price)
@@ -47,21 +57,46 @@ class Machine
 		end
 	end
 
-	def select(product, price)
-		new_price = convert(price)
+	# def buy(product, price)
+	# 	new_price = convert(price)
+	# 	@new_quantity = quantity(product)
+
+	# 	if new_price == price(product)
+	# 		@new_quantity -= 1
+	# 		return "Your product: " + product
+	# 	end
+
+	# 	if new_price > price(product)
+	# 		@new_quantity -= 1
+	# 		change = convert(new_price - price(product))
+	# 		return "Your product: #{product} - Change: #{change}"
+	# 	end
+
+	# 	if new_price < price(product)
+	# 		@new_quantity = quantity(product)
+	# 		amount = convert(price(product) - new_price)
+	# 		return "Please insert another #{amount}"
+	# 	end
+	# end
+
+	def buy(product, amount)
+		new_price = convert(amount)
+
+		return "There are no more #{selected(product).name}" if remaining(product) == 0
+		
 		if new_price == price(product)
-			return "Your product: " + product
+			selected(product).one_less
+			return "Your product:\n #{selected(product).name}" 
 		end
 
 		if new_price > price(product)
 			change = convert(new_price - price(product))
-			return "Your product: #{product} - Change: #{change}"
+			return "Your product:\n #{selected(product).name}\nChange: #{change}"
 		end
+	end
 
-		if new_price < price(product)
-			amount = convert(price(product) - new_price)
-			return "Please insert another #{amount}"
-		end
+	def remaining(product)
+		selected(product).quantity
 	end
 
 end
