@@ -2,9 +2,9 @@ class Machine
 
 	def products
 		[
-			{product: {"Coke" => 150.0}, quantity: nil},
-			{product: {"Mars" => 50.0}, quantity: nil},
-			{product: {"Pringles" => 175.0}, quantity: nil}
+			{product: {"Coke" => 150.0}, quantity: 10},
+			{product: {"Mars" => 50.0}, quantity: 5},
+			{product: {"Pringles" => 175.0}, quantity: 5}
 		]
 	end
 
@@ -23,6 +23,11 @@ class Machine
 			"£1" => 5,
 			"£2" => 5
 		}
+	end
+
+	def quantity(product)
+		q = products.select{|p| p[:product][product]}
+		q[0][:quantity]
 	end
 
 	def price(product)
@@ -51,6 +56,11 @@ class Machine
 		if new_price > price(product)
 			change = convert(new_price - price(product))
 			return "Your product: #{product} - Change: #{change}"
+		end
+
+		if new_price < price(product)
+			amount = convert(price(product) - new_price)
+			return "Please insert another #{amount}"
 		end
 	end
 

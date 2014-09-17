@@ -47,6 +47,18 @@ describe Machine do
 		expect(machine.change["£2"]).to eq 5
 	end
 
+	it 'contains 5 cans of coke' do
+		expect(machine.quantity("Coke")).to eq 10
+	end
+
+	it 'contains 5 Mars candies' do
+		expect(machine.quantity("Mars")).to eq 5
+	end
+
+	it 'contains 5 packs of Pringles' do
+		expect(machine.quantity("Pringles")).to eq 5
+	end
+
 	it 'can convert price to denomination p' do
 		expect(machine.convert(20)).to eq "20p"
 	end
@@ -69,6 +81,10 @@ describe Machine do
 
 	it 'returns change if too much money is provided' do
 		expect(machine.select("Coke", "£2")).to eq  "Your product: Coke - Change: 50p"
+	end
+
+	it 'asks for more money if is not enough' do
+		expect(machine.select("Pringles", "£1")).to eq "Please insert another 75p"
 	end
 
 end
