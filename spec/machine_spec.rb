@@ -4,9 +4,6 @@ require 'coins'
 
 describe Machine do
 	let(:machine) { Machine.new }
-	let(:coke) { Product.new "Coke", 150.0, 10}
-	let(:pringles) { Product.new "Pringles", 50.0, 5}
-	let(:mars) { Product.new "Mars", 175.0, 5}
 
 	context 'When created' do 
 		it 'contains products when created' do
@@ -18,56 +15,8 @@ describe Machine do
 		end
 
 		it 'contains coins when created' do
-			expect(machine.coins).to eq [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 5, 5, 5, 5, 5, 10, 10, 10, 10, 10, 20, 20, 20, 20, 20, 50, 50, 50, 50, 50, 100, 100, 200, 200]
+			expect(machine.available_coins).to eq [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 5, 5, 5, 5, 5, 10, 10, 10, 10, 10, 20, 20, 20, 20, 20, 50, 50, 50, 50, 50, 100, 100, 200, 200]
 		end
-
-	# 	it 'contains change when created' do
-	# 		expect(machine.change.keys).to eq ["1p", "2p", "5p", "10p", "20p", "50p", "£1", "£2"]
-	# 	end
-
-	# 	it 'contains 10 coins of denomination 1p' do
-	# 		expect(machine.change["1p"]).to eq 10
-	# 	end
-
-	# 	it 'contains 10 coins of denomination 2p' do
-	# 		expect(machine.change["2p"]).to eq 10
-	# 	end
-
-	# 	it 'contains 10 coins of denomination 5p' do
-	# 		expect(machine.change["5p"]).to eq 10
-	# 	end
-
-	# 	it 'contains 10 coins of denomination 10p' do
-	# 		expect(machine.change["10p"]).to eq 10
-	# 	end
-
-	# 	it 'contains 8 coins of denomination 20p' do
-	# 		expect(machine.change["20p"]).to eq 8
-	# 	end
-
-	# 	it 'contains 8 coins of denomination 50p' do
-	# 		expect(machine.change["50p"]).to eq 8
-	# 	end
-
-	# 	it 'contains 5 coins of denomination £1' do
-	# 		expect(machine.change["£1"]).to eq 5
-	# 	end
-
-	# 	it 'contains 5 coins of denomination £2' do
-	# 		expect(machine.change["£2"]).to eq 5
-	# 	end
-
-	# 	it 'contains 10 cans of coke' do
-	# 		expect(machine.quantity("Coke")).to eq 10
-	# 	end
-
-	# 	it 'contains 5 Mars bars' do
-	# 		expect(machine.quantity("Mars")).to eq 5
-	# 	end
-
-	# 	it 'contains 5 packs of Pringles' do
-	# 		expect(machine.quantity("Pringles")).to eq 5
-	# 	end
 	end
 
 	context 'Converting change' do
@@ -100,6 +49,13 @@ describe Machine do
 		# it 'asks for more money if is not enough' do
 		# 	expect(machine.buy("Pringles", "£1")).to eq "Please insert another 75p"
 		# end
+
+		it 'adds the value to the total coins' do
+			machine.buy("Coke", "£1.5")
+			expect(machine.coins.fifty_p).to eq 6
+			expect(machine.coins.one_pound).to eq 3
+			expect(machine.coins.total).to eq 1190
+		end
 	end
 
 	context 'Keeping track of products and change' do

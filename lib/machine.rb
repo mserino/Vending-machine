@@ -1,5 +1,7 @@
 class Machine
 
+	attr_accessor :coins
+
 	def initialize
 		@coke = Product.new "Coke", 150.0, 10
 		@pringles = Product.new "Pringles", 50.0, 5
@@ -11,7 +13,7 @@ class Machine
 		[@coke, @pringles, @mars]
 	end
 
-	def coins
+	def available_coins
 		@machine_coins = []
 		@coins.one_p.times{ @machine_coins << 1}
 		@coins.two_p.times{ @machine_coins << 2}
@@ -27,19 +29,6 @@ class Machine
 	def products_names
 		products.map{|p| p.name}
 	end
-
-	# def change
-	# 	{
-	# 		"1p" => 10,
-	# 		"2p" => 10,
-	# 		"5p" => 10,
-	# 		"10p" => 10,
-	# 		"20p" => 8,
-	# 		"50p" => 8,
-	# 		"£1" => 5,
-	# 		"£2" => 5
-	# 	}
-	# end
 
 	def select(product)
 		products.select{|p| p.name == product}
@@ -70,6 +59,7 @@ class Machine
 		
 		if new_price == price(product)
 			selected(product).one_less
+			@coins.receive(amount)
 			return "Your product:\n #{selected(product).name}" 
 		end
 
@@ -79,7 +69,7 @@ class Machine
 		end
 	end
 
-	
+
 	def convert(cash)
 		if cash.class == String
 			return cash.to_f if cash.include? "p"
