@@ -1,3 +1,7 @@
+require './lib/coins'
+require './lib/product'
+# requires added only to try it faster in irb
+
 class Machine
 
 	attr_accessor :coins
