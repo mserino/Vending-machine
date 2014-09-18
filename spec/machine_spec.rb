@@ -76,6 +76,14 @@ describe Machine do
 			expect(machine.coins.one_pound).to eq 3
 			expect(machine.coins.fifty_p).to eq 6
 		end
+
+		it 'returns an error if the money inserted is not correct' do
+			expect(machine.buy("Coke", "5")).to eq "Please insert the money in the correct way (e.g. 50p or £1)"
+		end
+
+		it 'returns an error if the product is not available' do
+			expect(machine.buy("Smarties", "£1")).to eq "This item is not available"
+		end
 	end
 
 	context 'Keeping track of products and change' do

@@ -58,6 +58,10 @@ class Machine
 	def buy(product, amount)
 		new_amount = convert(amount)
 
+		return "Please insert the money in the correct way (e.g. 50p or £1)" if !amount.include?("p") && !amount.include?("£")
+
+		return "This item is not available" if !products_names.include?(product)
+
 		return "There are no more #{selected(product).name}" if remaining(product) == 0
 		
 		if new_amount == price(product)
