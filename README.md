@@ -20,7 +20,7 @@ Vending Machine
 
 if the amount is correct you'll receive this message
 
-'Your product: Coke'
+`Your product: Coke`
 
 `> machine.buy("Coke", "£2")`
 
