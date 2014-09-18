@@ -84,7 +84,6 @@ class Machine
 		selected(product).one_less
 		@coins.receive(convert(@temporary))
 		@coins.receive(remaining_amount)
-		# doesn't work and don't understand why
 	end
 
 	def convert(cash)
