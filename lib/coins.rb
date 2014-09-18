@@ -3,6 +3,7 @@ class Coins
 	attr_accessor :one_p, :two_p, :five_p, :ten_p, :twenty_p, :fifty_p, :one_pound, :two_pounds
 
 	def initialize(one_p, two_p, five_p, ten_p, twenty_p, fifty_p, one_pound, two_pounds)
+		# coins class initialized with all the denominations (£)
 		@one_p = one_p
 		@two_p = two_p
 		@five_p = five_p
@@ -15,14 +16,17 @@ class Coins
 	end
 
 	def values
+		# all the values relative to every denomination
 		{"1p" => 1, "2p" => 2, "5p" => 5, "10p" => 10, "20p" => 20, "50p" => 50, "£1" => 100, "£2" => 200}
 	end
 
 	def total
+		# total amount of money in the machine
 		(@one_p * values["1p"]) + (@two_p * values["2p"]) + (@five_p * values["5p"]) + (@ten_p * values["10p"]) + (@twenty_p * values["20p"]) + (@fifty_p * values["50p"]) + (@one_pound * values["£1"]) + (@two_pounds * values["£2"])
 	end
 
 	def receive(cash)
+		# main method to add coins to the machine
 		c = convert(cash)
 		amount = change(c)
 			amount.each do |coin|
@@ -39,6 +43,7 @@ class Coins
 	end
 
 	def convert(cash)
+		# converts string into float and viceversa
 		if cash.class == String
 			return cash.to_f if cash.include? "p"
 			return (cash.delete("£").to_f)*100 if cash.include? "£"
@@ -51,6 +56,7 @@ class Coins
 	end
 
   def change(amount)
+  	# given a fixnum or a float, returns an array with all the coins that form the number
     available_coins = values.values.reverse
     coins = []
     index = 0

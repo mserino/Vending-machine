@@ -39,11 +39,11 @@ describe Machine do
 
 	context 'Selecting products' do
 		it 'returns a product and no money if the money provided is correct' do
-			expect(machine.buy("Coke", "£1.5")).to eq "Your product:\n Coke"
+			expect(machine.buy("Coke", "£1.5")).to eq "Your product: Coke"
 		end
 
 		it 'returns change if too much money is provided' do
-			expect(machine.buy("Coke", "£2")).to eq  "Your product:\n Coke\nChange: 50p"
+			expect(machine.buy("Coke", "£2")).to eq  "Your product: Coke - Change: 50p"
 		end
 
 		it 'adds the value to the total coins' do
