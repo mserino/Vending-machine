@@ -1,3 +1,6 @@
+require './lib/coins'
+require './lib/product'
+
 class Machine
 
 	attr_accessor :coins
@@ -53,22 +56,36 @@ class Machine
 	end
 
 	def buy(product, amount)
-		new_price = convert(amount)
+		new_amount = convert(amount)
 
 		return "There are no more #{selected(product).name}" if remaining(product) == 0
 		
-		if new_price == price(product)
+		if new_amount == price(product)
 			selected(product).one_less
 			@coins.receive(amount)
 			return "Your product:\n #{selected(product).name}" 
 		end
 
-		if new_price > price(product)
-			change = convert(new_price - price(product))
+		if new_amount > price(product)
+			change = convert(new_amount - price(product))
+			selected(product).one_less
+			@coins.receive(convert(price(product)))
 			return "Your product:\n #{selected(product).name}\nChange: #{change}"
+		end
+
+		if new_amount < price(product)
+			remaining = price(product) - new_amount
+			@temporary = new_amount
+			return "Please insert another #{convert(remaining)}"
 		end
 	end
 
+	def add(remaining_amount, product)
+		selected(product).one_less
+		@coins.receive(convert(@temporary))
+		@coins.receive(remaining_amount)
+		# doesn't work and don't understand why
+	end
 
 	def convert(cash)
 		if cash.class == String
