@@ -103,4 +103,22 @@ describe Machine do
 		end
 	end
 
+	context 'Reloading the machine' do
+		it 'can reload the objects' do
+			machine.buy("Coke", "£1.5")
+			expect(machine.remaining("Coke")).to eq 9
+			machine.reload
+			expect(machine.remaining("Coke")).to eq 10
+		end
+
+		it 'can reload the coins' do
+			machine.buy("Coke", "£1.5")
+			expect(machine.coins.one_pound).to eq 3
+			expect(machine.coins.fifty_p).to eq 6
+			machine.reload
+			expect(machine.coins.one_pound).to eq 2
+			expect(machine.coins.fifty_p).to eq 5
+		end
+	end
+
 end

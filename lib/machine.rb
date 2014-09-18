@@ -64,6 +64,10 @@ class Machine
 		@coins.receive(remaining_amount)
 	end
 
+	def reload
+		initialize
+	end
+
 	def available_coins
 		# returns a list of all the coins in the machine
 		@machine_coins = []
