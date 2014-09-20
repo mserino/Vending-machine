@@ -15,14 +15,14 @@ describe Coins do
 	end
 
 	it 'denomination have values' do
-		expect(coins.values["1p"]).to eq 1
-		expect(coins.values["2p"]).to eq 2
-		expect(coins.values["5p"]).to eq 5
-		expect(coins.values["10p"]).to eq 10
-		expect(coins.values["20p"]).to eq 20
-		expect(coins.values["50p"]).to eq 50
-		expect(coins.values["£1"]).to eq 100
-		expect(coins.values["£2"]).to eq 200
+		expect(coins.values[0]).to eq 1
+		expect(coins.values[1]).to eq 2
+		expect(coins.values[2]).to eq 5
+		expect(coins.values[3]).to eq 10
+		expect(coins.values[4]).to eq 20
+		expect(coins.values[5]).to eq 50
+		expect(coins.values[6]).to eq 100
+		expect(coins.values[7]).to eq 200
 	end
 
 	it 'can calculate the total amount' do
