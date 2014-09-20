@@ -1,4 +1,8 @@
+require 'helpers'
+
 class Coins
+
+	include Helpers
 
 	attr_accessor :one_p, :two_p, :five_p, :ten_p, :twenty_p, :fifty_p, :one_pound, :two_pounds
 
@@ -54,19 +58,6 @@ class Coins
 				@two_pounds += 1 if coin == 200
 			end
 			@total = total
-	end
-
-	def convert(cash)
-		# converts string into float and viceversa
-		if cash.class == String
-			return cash.to_f if cash.include? "p"
-			return (cash.delete("£").to_f)*100 if cash.include? "£"
-		end
-
-		if cash.class == Float || cash.class == Fixnum
-			return "#{cash.to_i}p" if cash < 100
-			return "£#{cash.to_i/100}" if cash >= 100
-		end
 	end
 
   def change(amount)

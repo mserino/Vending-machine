@@ -19,23 +19,6 @@ describe Machine do
 		end
 	end
 
-	context 'Converting change' do
-		it 'can convert price to denomination p' do
-			expect(machine.convert(20)).to eq "20p"
-		end
-
-		it 'can convert price to denomination £' do
-			expect(machine.convert(100)).to eq "£1"
-		end
-
-		it 'can convert denomination p to price' do
-			expect(machine.convert("20p")).to eq 20
-		end
-
-		it 'can convert denomination £ to price' do
-			expect(machine.convert("£1")).to eq 100
-		end
-	end
 
 	context 'Selecting products' do
 		it 'returns a product and no money if the money provided is correct' do
