@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/mserino/Vending-machine/badges/gpa.svg)](https://codeclimate.com/github/mserino/Vending-machine)
+
 Vending Machine
 ===============
 
