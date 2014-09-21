@@ -1,5 +1,7 @@
 require './lib/coins'
 require './lib/product'
+require_relative 'helpers'
+
 # requires added only to try it faster in irb
 
 class Machine

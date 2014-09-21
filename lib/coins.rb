@@ -1,4 +1,4 @@
-require 'helpers'
+require_relative 'helpers'
 
 class Coins
 
@@ -29,10 +29,6 @@ class Coins
 		[1, 2, 5, 10, 20, 50, 100, 200]
 	end
 
-	def relative_values
-		[{@one_p => 1}, {@two_p => 2}, {@five_p => 5}, {@ten_p => 10}, {@twenty_p => 20}, {@fifty_p => 50}, {@one_pound => 100}, {@two_pounds => 200}]
-	end
-
 	def couples
 		# combines coins quantity and values
 		coins_quantity.zip(values)
@@ -43,21 +39,26 @@ class Coins
 		couples.map{|x,y| x*y}.inject(:+)
 	end
 
+	def relative_values
+		# converter from values to relative attribute names
+		{1 => :@one_p, 2 => :@two_p, 5 => :@five_p, 10 => :@ten_p, 20 => :@twenty_p, 50 => :@fifty_p, 100 => :@one_pound, 200 => :@two_pounds}
+	end
+
 	def receive(cash)
 		# main method to add coins to the machine
 		c = convert(cash)
 		amount = change(c)
 			amount.each do |coin|
-				@one_p += 1 if coin == 1
-				@two_p += 1 if coin == 2
-				@five_p += 1 if coin == 5
-				@ten_p += 1 if coin == 10
-				@twenty_p += 1 if coin == 20
-				@fifty_p += 1 if coin == 50
-				@one_pound += 1 if coin == 100
-				@two_pounds += 1 if coin == 200
+				value = relative_values.fetch(coin)
+				den = self.instance_variable_get(value)
+				self.instance_variable_set(value, add_one(den))
 			end
 			@total = total
+	end
+
+	def add_one(element)
+		# adds one
+		element += 1
 	end
 
   def change(amount)
