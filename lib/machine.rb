@@ -2,8 +2,6 @@ require './lib/coins'
 require './lib/product'
 require_relative 'helpers'
 
-# requires added only to try it faster in irb
-
 class Machine
 
 	include Helpers
@@ -102,7 +100,7 @@ class Machine
 		selected(product).quantity
 	end
 
-	
+
 	## BUY METHODS
 		def incorrect?(amount)
 		!amount.include?("p") && !amount.include?("£")
