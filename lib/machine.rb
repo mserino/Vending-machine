@@ -1,6 +1,7 @@
 require './lib/coins'
 require './lib/product'
 require_relative 'helpers'
+require_relative 'error'
 
 class Machine
 
@@ -24,11 +25,11 @@ class Machine
 		# main method to buy products
 		new_amount = convert(amount)
 
-		return incorrect_message if incorrect?(amount)
+		raise InvalidEnterException if incorrect?(amount)
 
-		return not_available_message if not_available(product)
+		raise ItemNotAvailableException if not_available(product)
 
-		return no_more_message(product) if no_more(product)
+		raise NoMoreException if no_more(product)
 		
 		if correct_amount?(product, new_amount)
 			return_product_stack_amount(product, amount)
@@ -106,24 +107,12 @@ class Machine
 		!amount.include?("p") && !amount.include?("£")
 	end
 
-	def incorrect_message
-		"Please insert the money in the correct way (e.g. 50p or £1)"
-	end
-
 	def not_available(product)
 		!products_names.include?(product)
 	end
 
-	def not_available_message
-		"This item is not available"
-	end
-
 	def no_more(product)
 		remaining(product) == 0
-	end
-
-	def no_more_message(product)
-		"There are no more #{selected(product).name}"
 	end
 
 	def correct_amount?(product, new_amount)

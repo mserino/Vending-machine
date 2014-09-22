@@ -1,6 +1,7 @@
 require 'machine'
 require 'product'
 require 'coins'
+require 'error'
 
 describe Machine do
 	let(:machine) { Machine.new }
@@ -61,11 +62,11 @@ describe Machine do
 		end
 
 		it 'returns an error if the money inserted is not correct' do
-			expect(machine.buy("Coke", "5")).to eq "Please insert the money in the correct way (e.g. 50p or £1)"
+			expect{machine.buy("Coke", "5")}.to raise_exception InvalidEnterException
 		end
 
 		it 'returns an error if the product is not available' do
-			expect(machine.buy("Smarties", "£1")).to eq "This item is not available"
+			expect{machine.buy("Smarties", "£1")}.to raise_exception ItemNotAvailableException
 		end
 	end
 
@@ -82,7 +83,7 @@ describe Machine do
 
 		it 'knows when there are no more items of a product' do
 			5.times { machine.buy("Pringles", "50p") }
-			expect(machine.buy("Pringles", "50p")).to eq "There are no more Pringles"
+			expect{machine.buy("Pringles", "50p")}.to raise_exception NoMoreException
 		end
 	end
 
