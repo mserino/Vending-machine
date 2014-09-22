@@ -102,4 +102,75 @@ class Machine
 		selected(product).quantity
 	end
 
+	
+	## BUY METHODS
+		def incorrect?(amount)
+		!amount.include?("p") && !amount.include?("£")
+	end
+
+	def incorrect_message
+		"Please insert the money in the correct way (e.g. 50p or £1)"
+	end
+
+	def not_available(product)
+		!products_names.include?(product)
+	end
+
+	def not_available_message
+		"This item is not available"
+	end
+
+	def no_more(product)
+		remaining(product) == 0
+	end
+
+	def no_more_message(product)
+		"There are no more #{selected(product).name}"
+	end
+
+	def correct_amount?(product, new_amount)
+		new_amount == price(product)
+	end
+
+	def too_much_money?(product, new_amount)
+		new_amount > price(product)
+	end
+
+	def money_not_enough?(product, new_amount)
+		new_amount < price(product)
+	end
+
+	def return_product_stack_amount(product, amount)
+		selected(product).one_less
+		@coins.receive(amount)
+	end
+
+	def return_product_stack_amount_message(product)
+		"Your product: #{name(product)}"
+	end
+
+	def return_product_and_change(product, amount)
+		# payment added to the stack
+		new_amount = convert(amount)
+		@change = convert(new_amount - price(product))
+		selected(product).one_less
+		@coins.receive(convert(price(product)))
+	end
+
+	def return_product_and_change_message(product)
+		"Your product: #{selected(product).name} - Change: #{@change}"
+	end
+
+	def return_nothing(product, amount)
+		# if the money is not enough, the money inserted is added to a temporary stock
+		new_amount = convert(amount)
+		@remaining = price(product) - new_amount
+		@temporary = new_amount
+	end
+
+	def ask_for_more
+		"Please insert another #{convert(@remaining)}"
+	end
+	## END BUY METHODS
+
 end
