@@ -52,21 +52,16 @@ class Coins
 			@total = total
 	end
 
-  def change(amount)
+  def change(value)
   	# given a fixnum or a float, returns an array with all the coins that form the number
-    available_coins = values.reverse
-    coins = []
-    index = 0
-    coin = available_coins[index]
-    until amount == 0
-      until amount >= coin
-         index += 1
-         coin = available_coins[index]
-      end
-      coins << coin
-      amount -= coin
-    end
-    coins
+  	@machine_change = []
+  	values.reverse.each do |coin|
+  		(value/coin).to_i.times do
+  			@machine_change << coin
+  			value -= coin
+  		end
+  	end
+  	@machine_change
   end
 
 end
