@@ -15,59 +15,119 @@ module Helpers
 
 	## CONVERT METHODS
 	def pounds_to_string(cash)
-		# converts to string (e.g. £1)
 		"£#{cash.to_i/100}"
 	end
 
 	def penny_to_string(cash)
-		# converts to string (e.g. 50p)
 		"#{cash.to_i}p"
 	end
 
 	def less_than_100(cash)
-		# checks if is more or equal 100 (and it's pennies)
 		cash < 100
 	end
 
 	def more_equal_100(cash)
-		# checks if is more or equal 100 (and it's pounds)
 		cash >= 100
 	end
 
 	def penny_to_float(cash)
-		# converts string in float
 		cash.to_f
 	end
 
 	def pounds_to_float(cash)
-		# converts string in float
 		(cash.delete("£").to_f)*100
 	end
 
 
 	def is_pound?(cash)
-		# checks if string is a pound
 		cash.include? "£"
 	end
 
 	def is_penny?(cash)
-		# checks if string is a penny
 		cash.include? "p"
 	end
 
 	def is_a_string?(object)
-		# checks if is a string
 		object.class == String
 	end
 
 	def is_a_float?(object)
-		# checks if is a float
 		object.class == Float
 	end
 
 	def is_a_fixnum?(object)
-		# checks if is a fixnum
 		object.class == Fixnum
 	end
 	## END CONVERT METHODS
+
+
+	## BUY METHODS
+		def incorrect?(amount)
+		!amount.include?("p") && !amount.include?("£")
+	end
+
+	def incorrect_message
+		"Please insert the money in the correct way (e.g. 50p or £1)"
+	end
+
+	def not_available(product)
+		!products_names.include?(product)
+	end
+
+	def not_available_message
+		"This item is not available"
+	end
+
+	def no_more(product)
+		remaining(product) == 0
+	end
+
+	def no_more_message(product)
+		"There are no more #{selected(product).name}"
+	end
+
+	def correct_amount?(product, new_amount)
+		new_amount == price(product)
+	end
+
+	def too_much_money?(product, new_amount)
+		new_amount > price(product)
+	end
+
+	def money_not_enough?(product, new_amount)
+		new_amount < price(product)
+	end
+
+	def return_product_stack_amount(product, amount)
+		selected(product).one_less
+		@coins.receive(amount)
+	end
+
+	def return_product_stack_amount_message(product)
+		"Your product: #{name(product)}"
+	end
+
+	def return_product_and_change(product, amount)
+		# payment added to the stack
+		new_amount = convert(amount)
+		@change = convert(new_amount - price(product))
+		selected(product).one_less
+		@coins.receive(convert(price(product)))
+	end
+
+	def return_product_and_change_message(product)
+		"Your product: #{selected(product).name} - Change: #{@change}"
+	end
+
+	def return_nothing(product, amount)
+		# if the money is not enough, the money inserted is added to a temporary stock
+		new_amount = convert(amount)
+		@remaining = price(product) - new_amount
+		@temporary = new_amount
+	end
+
+	def ask_for_more
+		"Please insert another #{convert(@remaining)}"
+	end
+	## END BUY METHODS
 end
